@@ -82,6 +82,67 @@ public class Deck {
         return true;
     }
 
+    public static void sortCards(Card[] hand) {
+        Card[] hearts = new Card[hand.length], spades = new Card[hand.length], clubs = new Card[hand.length], diamonds = new Card[hand.length];
+
+        for (int i = 0; i < hand.length; i++) {
+            Card currentCard = hand[i];
+            if (currentCard != null) {
+                switch (currentCard.getSuit()) {
+                    case HEARTS:
+                        hearts[getFirstNullIndex(hearts)] = currentCard;
+                        break;
+                    case SPADES:
+                        spades[getFirstNullIndex(spades)] = currentCard;
+                        break;
+                    case CLUBS:
+                        clubs[getFirstNullIndex(clubs)] = currentCard;
+                        break;
+                    case DIAMONDS:
+                        diamonds[getFirstNullIndex(diamonds)] = currentCard;
+                        break;
+                }
+            }
+        }
+
+        // Build hand based on the 4 suit arrays
+        for (int i = 0; i < getFirstNullIndex(hearts); i++) hand[i] = hearts[i];
+        for (int i = 0; i < getFirstNullIndex(spades); i++) hand[i + getFirstNullIndex(hearts)] = spades[i];
+        for (int i = 0; i < getFirstNullIndex(clubs); i++)
+            hand[i + getFirstNullIndex(spades) + getFirstNullIndex(hearts)] = clubs[i];
+        for (int i = 0; i < getFirstNullIndex(diamonds); i++)
+            hand[i + getFirstNullIndex(clubs) + getFirstNullIndex(spades) + getFirstNullIndex(hearts)] = diamonds[i];
+
+        // Correct nulls
+        for (int i = getFirstNullIndex(clubs) + getFirstNullIndex(spades) + getFirstNullIndex(hearts) + getFirstNullIndex(diamonds); i < hand.length; i++)
+            hand[i] = null;
+
+    }
+
+    public static void fixCards(Card[] hand) {
+        Card[] newArr = new Card[hand.length];
+
+        for (int i = 0; i < hand.length; i++) {
+            Card currentCard = hand[i];
+            if (currentCard != null) {
+                newArr[getFirstNullIndex(newArr)] = currentCard;
+            }
+        }
+
+        // Copy newArr into hand
+        for (int i = 0; i < hand.length; i++) {
+            hand[i] = newArr[i];
+        }
+    }
+
+    private static int getFirstNullIndex(Object[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == null)
+                return i;
+        }
+        return -1;
+    }
+
     @Override
     public String toString() {
         String returnString = "A deck with " + currentSize + " Cards in it:\n";

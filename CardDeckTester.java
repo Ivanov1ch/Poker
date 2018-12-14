@@ -23,12 +23,9 @@ public class CardDeckTester {
         System.out.println(String.join(", ", Arrays.toString(hand2)));
         System.out.println(deck);
 
-        for(int i = 0; i < 7; i++) deck.returnToDeck(hand1[i]);
-
-        System.out.println(deck);
-
-        deck.returnToDeck(hand2);
-
-        System.out.println(deck);
+        hand1[0] = null;
+        System.out.println(String.join(", ", Arrays.toString(hand1)));
+        Deck.sortCards(hand1);
+        System.out.println(String.join(", ", Arrays.toString(hand1)));
     }
 }
