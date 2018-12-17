@@ -23,8 +23,8 @@ public class Deck {
 
         // Generate all possible cards
         for (int suitIndex = 0; suitIndex < 4; suitIndex++) {
-            for (int faceValue = 1; faceValue <= currentSize / 4.0; faceValue++) {
-                cards[suitIndex * 13 + faceValue - 1] = new Card(faceValue, suits[suitIndex]);
+            for (int faceValue =  2; faceValue <= currentSize / 4.0 + 1; faceValue++) {
+                cards[suitIndex * 13 + faceValue - 2] = new Card(faceValue, suits[suitIndex]);
             }
         }
 

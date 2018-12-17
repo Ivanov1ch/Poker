@@ -18,7 +18,7 @@ public class Card {
 
     private final Suit suit;
     private final String name; // ”Ace”, “Queen”, “Ten”, etc
-    private final int faceValue; // The face value of the card, from 1 to 13
+    private final int faceValue; // The face value of the card, from 2 to 14
 
     public Card(int faceValue, Suit suit) {
         this.suit = suit;
@@ -28,7 +28,7 @@ public class Card {
 
     private String nameFromFaceValue() {
         String[] cardNames = {"Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King", "Ace"};
-        return cardNames[faceValue - 1];
+        return cardNames[faceValue - 2];
     }
 
     public Suit getSuit() {
