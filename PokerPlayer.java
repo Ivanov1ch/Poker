@@ -14,4 +14,16 @@ public class PokerPlayer extends CardPlayer {
         super(name, max_size);
         this.balance = balance;
     }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void addToBalance(double amount) {
+        balance += amount;
+    }
+
+    public void removeFromBalance(double amount) {
+        balance -= amount;
+    }
 }
