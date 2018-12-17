@@ -20,6 +20,58 @@ public class GameRules {
         ante += amount;
     }
 
+    // Returns 1 if hand1 is better or 2 if hand2 is better, or 0 if its a tie
+    public int getBetterHand(Card[] hand1, Card[] hand2) {
+        int[][] hand1Score = scoreHand(hand1), hand2Score = scoreHand(hand2);
+
+        if (hand1Score[0][0] > hand2Score[0][0])
+            return 1;
+        else if (hand1Score[0][0] < hand2Score[0][0])
+            return 2;
+        else {
+            // They are both cards of the same hand ranking, check total face value of involved cards and high card as failsafe
+
+            if (hand1Score[0][0] == 0) {
+                // Both have junk hands, check high cards
+                if (hand1Score[0][1] > hand2Score[0][1])
+                    return 1;
+                else if (hand1Score[0][1] < hand2Score[0][1])
+                    return 2;
+                else
+                    return 0;
+            } else {
+                // They both have "real" hands, compare the sum of the involved cards
+                int hand1Sum = sumInvolvedCards(hand1Score), hand2Sum = sumInvolvedCards(hand2Score);
+
+                if (hand1Sum > hand2Sum) {
+                    return 1;
+                } else if (hand1Sum < hand2Sum)
+                    return 2;
+                else {
+                    // Check high cards as a last resort
+                    if (hand1Score[0][1] > hand2Score[0][1])
+                        return 1;
+                    else if (hand1Score[0][1] < hand2Score[0][1])
+                        return 2;
+                    else
+                        return 0;
+                }
+            }
+        }
+    }
+
+    private int sumInvolvedCards(int[][] handScore) {
+        int sum = 0;
+
+        // Sum up the face values of all involved cards, ignoring the default -1s
+        for (int faceValue : handScore[1]) {
+            if (faceValue != -1)
+                sum += faceValue;
+        }
+
+        return sum;
+    }
+
     /* Scores the cards using the following format:
        [[Hand Ranking, High Card Face Value], [Face value of cards involved in hand]]
        Where Hand Ranking is an integer from 0 to 9, 0 being a hand with only a high card, and 9 being a royal flush
