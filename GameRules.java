@@ -88,7 +88,7 @@ public class GameRules {
         One pair: 1
         High card: 0
      */
-    public int[][] scoreHand(Card[] cards) {
+    public static int[][] scoreHand(Card[] cards) {
         int[][] retArray = new int[2][5];
 
         for (int i = 0; i < retArray.length; i++) {
@@ -134,14 +134,14 @@ public class GameRules {
         return retArray;
     }
 
-    private void setFaceValueArray(Object[] handCheckResult, int[][] retArray) {
+    private static void setFaceValueArray(Object[] handCheckResult, int[][] retArray) {
         for (int i = 0; i < retArray[1].length; i++) {
             if (i < handCheckResult.length - 1)
                 retArray[1][i] = (int) handCheckResult[i + 1];
         }
     }
 
-    private int getHighCard(Card[] cards) {
+    private static int getHighCard(Card[] cards) {
         int currentHigh = Integer.MIN_VALUE;
 
         for (Card card : cards) {
@@ -155,7 +155,7 @@ public class GameRules {
         return currentHigh;
     }
 
-    private Object[] isRoyalFlush(Card[] cards) {
+    private static Object[] isRoyalFlush(Card[] cards) {
         Object[] straightFlush = isStraightFlush(cards);
         Object[] ret = {false, 0, 0, 0, 0, 0};
 
@@ -175,7 +175,7 @@ public class GameRules {
         return ret;
     }
 
-    private Object[] isStraightFlush(Card[] cards) {
+    private static Object[] isStraightFlush(Card[] cards) {
         Object[] isFlush = isFlush(cards), isStraight = isStraight(cards);
         Object[] ret = {false, 0, 0, 0, 0, 0};
 
@@ -187,7 +187,7 @@ public class GameRules {
         return ret;
     }
 
-    private Object[] isFourOfAKind(Card[] cards) {
+    private static Object[] isFourOfAKind(Card[] cards) {
         Deck.fixCards(cards);
         Object[] hasPair = isPair(cards), hasThreeOfAKind = isThreeOfAKind(cards);
         Object[] ret = {false, 0};
@@ -220,7 +220,7 @@ public class GameRules {
         return ret;
     }
 
-    private Object[] isFullHouse(Card[] cards) {
+    private static Object[] isFullHouse(Card[] cards) {
         Deck.fixCards(cards);
         Object[] hasPair = isPair(cards), hasThreeOfAKind = isThreeOfAKind(cards);
         Object[] ret = {false, 0, 0};
@@ -256,7 +256,7 @@ public class GameRules {
         return ret;
     }
 
-    private Object[] isFlush(Card[] cards) {
+    private static Object[] isFlush(Card[] cards) {
         Deck.fixCards(cards);
         Object[] ret = {false, 0, 0, 0, 0, 0};
         if (cards[0] == null) return ret;
@@ -276,7 +276,7 @@ public class GameRules {
         return ret;
     }
 
-    private Object[] isStraight(Card[] cards) {
+    private static Object[] isStraight(Card[] cards) {
         Deck.fixCards(cards);
         Card[] sortedCards = new Card[cards.length];
         System.arraycopy(cards, 0, sortedCards, 0, cards.length);
@@ -302,7 +302,7 @@ public class GameRules {
         return ret;
     }
 
-    public Object[] isThreeOfAKind(Card[] cards) {
+    public static Object[] isThreeOfAKind(Card[] cards) {
         Deck.fixCards(cards);
         Object[] ret = {false, 0};
 
@@ -334,7 +334,7 @@ public class GameRules {
         return ret;
     }
 
-    public Object[] isTwoPair(Card[] cards) {
+    public static Object[] isTwoPair(Card[] cards) {
         Deck.fixCards(cards);
         Object[] ret = {false, 0, 0};
 
@@ -361,7 +361,7 @@ public class GameRules {
         return ret;
     }
 
-    public Object[] isPair(Card[] cards) {
+    public static Object[] isPair(Card[] cards) {
         Deck.fixCards(cards);
         Object[] ret = {false, 0};
 
@@ -385,7 +385,7 @@ public class GameRules {
         return ret;
     }
 
-    private void sortByFaceValue(Card[] cards) {
+    private static void sortByFaceValue(Card[] cards) {
         Deck.fixCards(cards);
 
         for (int i = 0; i < cards.length; i++) {
@@ -401,7 +401,7 @@ public class GameRules {
         }
     }
 
-    private int firstEmptyIndex(Object[] arr) {
+    private static int firstEmptyIndex(Object[] arr) {
         for (int i = 0; i < arr.length; i++) {
             if (arr[i] == null) {
                 return i;
@@ -411,7 +411,7 @@ public class GameRules {
         return -1;
     }
 
-    private int firstEmptyIndex(int[] arr) {
+    private static int firstEmptyIndex(int[] arr) {
         for (int i = 0; i < arr.length; i++) {
             if (arr[i] == 0) {
                 return i;

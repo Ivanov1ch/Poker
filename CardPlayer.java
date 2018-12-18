@@ -65,13 +65,22 @@ public class CardPlayer {
     public String showHand() {
         String retString = "";
 
-        for (Card card : hand) {
+        for (int i = 0; i < hand.length; i++) {
+            Card card = hand[i];
             if (card != null) {
-                retString += card;
-                retString += "\n";
+                retString += card.getShortName();
+                retString += "\t";
             }
         }
 
         return retString;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getCurrentSize() {
+        return currentSize;
     }
 }

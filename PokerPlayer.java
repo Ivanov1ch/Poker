@@ -9,6 +9,7 @@
 
 public class PokerPlayer extends CardPlayer {
     private double balance;
+    private boolean folded;
 
     public PokerPlayer(String name, int max_size, double balance) {
         super(name, max_size);
@@ -26,4 +27,14 @@ public class PokerPlayer extends CardPlayer {
     public void removeFromBalance(double amount) {
         balance -= amount;
     }
+
+    public boolean hasFolded() {
+        return folded;
+    }
+
+    public void setFolded(boolean folded) {
+        this.folded = folded;
+    }
+
+
 }

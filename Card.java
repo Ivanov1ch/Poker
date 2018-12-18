@@ -43,6 +43,33 @@ public class Card {
         return faceValue;
     }
 
+    public char getSuitSymbol() {
+        switch (this.suit) {
+            case HEARTS:
+                return '\u2660';
+            case DIAMONDS:
+                return '\u2666';
+            case CLUBS:
+                return '\u2663';
+            case SPADES:
+                return '\u2660';
+            default:
+                return ' ';
+        }
+    }
+
+    public String getShortName() {
+        String ret = "" + getSuitSymbol();
+
+        if (faceValue <= 10) {
+            ret += faceValue;
+        } else {
+            ret += name.charAt(0);
+        }
+
+        return ret;
+    }
+
     @Override
     public String toString() {
         return "The " + name + " of " + suit + ", with a face value of " + faceValue;

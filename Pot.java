@@ -19,4 +19,8 @@ public class Pot {
         total = 0;
         return temp;
     }
+
+    public double getTotal() {
+        return total;
+    }
 }
