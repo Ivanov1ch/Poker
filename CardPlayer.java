@@ -8,7 +8,7 @@
  */
 
 public class CardPlayer {
-    private Card[] hand;
+    protected Card[] hand;
     private final int MAX_SIZE; // The max size of the hand
     private int currentSize; // The number of cards currently in hand
     private String name;
@@ -82,5 +82,14 @@ public class CardPlayer {
 
     public int getCurrentSize() {
         return currentSize;
+    }
+
+    public Card[] getHand() {
+        Card[] copy = new Card[hand.length];
+
+        for(int i = 0; i < hand.length; i++)
+            copy[i] = new Card(hand[i]);
+
+        return copy;
     }
 }

@@ -26,6 +26,10 @@ public class Card {
         this.name = nameFromFaceValue();
     }
 
+    public Card(Card other) {
+        this(other.getFaceValue(), other.getSuit());
+    }
+
     private String nameFromFaceValue() {
         String[] cardNames = {"Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King", "Ace"};
         return cardNames[faceValue - 2];

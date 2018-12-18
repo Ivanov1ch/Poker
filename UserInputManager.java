@@ -101,7 +101,7 @@ public class UserInputManager {
 
             for (int i = 0; i < ret.length; i++) {
                 ret[i] = chosenIndexes.get(i);
-                output += (i + 1);
+                output += chosenIndexes.get(i);
                 if (i != ret.length - 1) {
                     output += ", ";
                 }

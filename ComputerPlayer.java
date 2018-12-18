@@ -17,7 +17,7 @@ public class ComputerPlayer extends PokerPlayer {
 
     // Returns -1 if folding, 0 if matching, and the amount raised if raising
     public double decideWager(double amountOwed) {
-        Object[] strategicDecision = strategy.decideBet(this.hand, amountOwed, getBalance());
+        Object[] strategicDecision = strategy.decideBet(hand, amountOwed, getBalance());
 
         switch ((Strategy.Action) strategicDecision[0]) {
             case FOLD:
