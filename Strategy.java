@@ -43,6 +43,11 @@ public class Strategy {
                 else
                     ret[0] = Action.FOLD;
             }
+        } else {
+            if(amountOwed <= balance / 5)
+                ret[0] = Action.MATCH;
+            else
+                ret[0] = Action.FOLD;
         }
 
         return ret;
