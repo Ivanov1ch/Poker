@@ -1,11 +1,15 @@
-/**
- * File:        PlayerDeckTester.java
- * Description: Tests Player and Deck.
+package Testers; /**
+ * File:        Testers.PlayerDeckTester.java
+ * Description: Tests Player and GameComponents.Deck.
  * Created:     12/14/2018
  *
  * @author danIv
  * @version 1.0
  */
+
+import GameComponents.Card;
+import GameComponents.CardPlayer;
+import GameComponents.Deck;
 
 import java.util.Scanner;
 

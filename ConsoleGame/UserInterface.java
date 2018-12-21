@@ -1,11 +1,14 @@
-import javax.swing.*;
+package ConsoleGame;
+
+import GameComponents.*;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
- * File:        UserInterface.java
+ * File:        ConsoleGame.UserInterface.java
  * Description: Drives a console-based game of poker.
  * Created:     12/17/2018
  *
@@ -62,7 +65,7 @@ public class UserInterface {
                         manageBets(betData[0], computerStartingBalance, betData[1], betData[2]);
                     }
 
-                    String[] handNames = {"High Card", "One Pair", "Two Pair", "Three of a Kind", "Straight", "Flush", "Full House", "Four of a Kind", "Straight Flush", "Royal Flush"};
+                    String[] handNames = {"High GameComponents.Card", "One Pair", "Two Pair", "Three of a Kind", "Straight", "Flush", "Full House", "Four of a Kind", "Straight Flush", "Royal Flush"};
                     System.out.println("\nRevealing hands...\n");
                     System.out.println("You have: ");
                     showHand(player);

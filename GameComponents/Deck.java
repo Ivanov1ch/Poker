@@ -1,5 +1,7 @@
+package GameComponents;
+
 /**
- * File:        Deck.java
+ * File:        GameComponents.Deck.java
  * Description: A class representing a deck of Cards.
  * Created:     12/12/2018
  *
@@ -41,7 +43,7 @@ public class Deck {
         }
     }
 
-    // Returns the top Card on the deck (the last Card in the array), and replaces it with null
+    // Returns the top GameComponents.Card on the deck (the last GameComponents.Card in the array), and replaces it with null
     // Returns null if all elements in cards are null
     public Card deal() {
         for (int index = currentSize - 1; index >= 0; index--) {
@@ -56,7 +58,7 @@ public class Deck {
         return null;
     }
 
-    // Adds the Card to the bottom of the deck (index 0)
+    // Adds the GameComponents.Card to the bottom of the deck (index 0)
     // Returns true if successful, false otherwise
     public boolean returnToDeck(Card card) {
         if (currentSize >= MAX_SIZE)
@@ -148,7 +150,7 @@ public class Deck {
         String returnString = "A deck with " + currentSize + " Cards in it:\n";
         for (int i = 1; i <= currentSize; i++) {
             Card currentCard = cards[i - 1];
-            returnString += "Card " + i + ": ";
+            returnString += "GameComponents.Card " + i + ": ";
             returnString += currentCard + "\n";
         }
 

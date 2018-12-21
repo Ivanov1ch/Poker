@@ -1,5 +1,7 @@
+package GameComponents;
+
 /**
- * File:        Pot.java
+ * File:        GameComponents.Pot.java
  * Description: The poker game's pot.
  * Created:     12/14/2018
  *

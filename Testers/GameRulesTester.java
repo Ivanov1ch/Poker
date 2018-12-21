@@ -1,8 +1,13 @@
+package Testers;
+
+import GameComponents.Card;
+import GameComponents.GameRules;
+
 import java.util.Arrays;
 
 /**
- * File:        GameRulesTester.java
- * Description: Tests the GameRules class.
+ * File:        Testers.GameRulesTester.java
+ * Description: Tests the GameComponents.GameRules class.
  * Created:     12/17/2018
  *
  * @author danIv

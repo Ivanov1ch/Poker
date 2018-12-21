@@ -1,9 +1,11 @@
+package GameComponents;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
- * File:        ComputerPlayer.java
- * Description: The computer's PokerPlayer.
+ * File:        GameComponents.ComputerPlayer.java
+ * Description: The computer's GameComponents.PokerPlayer.
  * Created:     12/17/2018
  *
  * @author danIv
@@ -29,7 +31,7 @@ public class ComputerPlayer extends PokerPlayer {
             case ALL_IN:
                 return -2;
             case RAISE:
-                return round((double) strategicDecision[1], 2); // Round to 2 decimal places because we are doing division in Strategy
+                return round((double) strategicDecision[1], 2); // Round to 2 decimal places because we are doing division in GameComponents.Strategy
             default:
                 return 0;
         }

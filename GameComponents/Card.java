@@ -1,5 +1,12 @@
+package GameComponents;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 /**
- * File:        Card.java
+ * File:        GameComponents.Card.java
  * Description: An immutable class representing a card in a normal 52 card deck.
  * Created:     12/12/2018
  *
@@ -11,6 +18,7 @@ public class Card {
     public enum Suit {
         HEARTS, SPADES, CLUBS, DIAMONDS;
 
+        public String getShortName() {return name().substring(0, 1);}
         public String toString() {
             return name().charAt(0) + name().substring(1).toLowerCase();
         }
@@ -20,10 +28,18 @@ public class Card {
     private final String name; // ”Ace”, “Queen”, “Ten”, etc
     private final int faceValue; // The face value of the card, from 2 to 14
 
+    private BufferedImage cardImage; // Will be used in GUI
+
     public Card(int faceValue, Suit suit) {
         this.suit = suit;
         this.faceValue = faceValue;
         this.name = nameFromFaceValue();
+
+        try {
+            this.cardImage = ImageIO.read(new File("/img/" + getShortName() + suit.getShortName()));
+        } catch (IOException e) {
+            // TODO: popup explaining that not all images were found
+        }
     }
 
     public Card(Card other) {

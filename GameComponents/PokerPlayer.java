@@ -1,8 +1,10 @@
+package GameComponents;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
- * File:        PokerPlayer.java
+ * File:        GameComponents.PokerPlayer.java
  * Description: A class representing a Poker Player.
  * Created:     12/14/2018
  *

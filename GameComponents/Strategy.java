@@ -1,8 +1,10 @@
+package GameComponents;
+
 import java.util.ArrayList;
 
 /**
- * File:        Strategy.java
- * Description: The ComputerPlayer's strategy.
+ * File:        GameComponents.Strategy.java
+ * Description: The GameComponents.ComputerPlayer's strategy.
  * Created:     12/17/2018
  *
  * @author danIv

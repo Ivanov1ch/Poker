@@ -1,6 +1,8 @@
+package GameComponents;
+
 /**
- * File:        CardPlayer.java
- * Description: Represents a player in a Card game.
+ * File:        GameComponents.CardPlayer.java
+ * Description: Represents a player in a GameComponents.Card game.
  * Created:     12/14/2018
  *
  * @author danIv

@@ -1,8 +1,13 @@
+package Testers;
+
+import GameComponents.Card;
+import GameComponents.Deck;
+
 import java.util.Arrays;
 
 /**
- * File:        CardDeckTester.java
- * Description: Tests the Card and Deck classes.
+ * File:        Testers.CardDeckTester.java
+ * Description: Tests the GameComponents.Card and GameComponents.Deck classes.
  * Created:     12/12/2018
  *
  * @author danIv

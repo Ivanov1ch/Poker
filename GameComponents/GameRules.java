@@ -1,7 +1,7 @@
-import java.util.Arrays;
+package GameComponents;
 
 /**
- * File:        GameRules.java
+ * File:        GameComponents.GameRules.java
  * Description: Scores hands and keeps track of the ante.
  * Created:     12/14/2018
  *
@@ -72,7 +72,7 @@ public class GameRules {
     }
 
     /* Scores the cards using the following format:
-       [[Hand Ranking, High Card Face Value], [Face value of cards involved in hand]]
+       [[Hand Ranking, High GameComponents.Card Face Value], [Face value of cards involved in hand]]
        Where Hand Ranking is an integer from 0 to 9, 0 being a hand with only a high card, and 9 being a royal flush
 
        FULL HAND LISTING:

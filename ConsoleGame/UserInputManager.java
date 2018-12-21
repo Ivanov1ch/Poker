@@ -1,9 +1,13 @@
+package ConsoleGame;
+
+import GameComponents.PokerPlayer;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
- * File:        UserInputManager.java
+ * File:        ConsoleGame.UserInputManager.java
  * Description: Description goes here.
  * Created:     12/17/2018
  *
