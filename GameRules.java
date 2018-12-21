@@ -30,7 +30,6 @@ public class GameRules {
             return 2;
         else {
             // They are both cards of the same hand ranking, check total face value of involved cards and high card as failsafe
-
             if (hand1Score[0][0] == 0) {
                 // Both have junk hands, check high cards
                 if (hand1Score[0][1] > hand2Score[0][1])

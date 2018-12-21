@@ -1,3 +1,6 @@
+import javax.swing.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -45,35 +48,43 @@ public class UserInterface {
             System.out.println();
             dealStartingHands();
 
-            manageBets();
+            double computerStartingBalance = computer.getBalance();
+            double[] betData = manageBets(0, computerStartingBalance, 0, 0);
 
             if (!player.hasFolded() && !computer.hasFolded()) {
                 discardCards();
                 System.out.println("Your new hand is: ");
                 showHand(player);
 
-                // TODO: computer discarding cards
-
-                System.out.println("Starting second round of wagers...");
-                manageBets();
-
                 if (!player.hasFolded() && !computer.hasFolded()) {
+                    if (!player.isAllIn() || !computer.isAllIn()) {
+                        System.out.println("\nStarting second round of wagers...\n");
+                        manageBets(betData[0], computerStartingBalance, betData[1], betData[2]);
+                    }
+
+                    String[] handNames = {"High Card", "One Pair", "Two Pair", "Three of a Kind", "Straight", "Flush", "Full House", "Four of a Kind", "Straight Flush", "Royal Flush"};
                     System.out.println("\nRevealing hands...\n");
-                    System.out.print("You have: ");
+                    System.out.println("You have: ");
                     showHand(player);
+                    System.out.println("That's a " + handNames[GameRules.scoreHand(player.getHand())[0][0]]);
+                    System.out.println();
 
-                    System.out.print(computer.getName() + " has: ");
+                    computer.discardCards(deck);
+
+                    System.out.println(computer.getName() + " has: ");
                     showHand(computer);
-
-                    // TODO: display name of both hands' card combinations
+                    System.out.println("That's a " + handNames[GameRules.scoreHand(computer.getHand())[0][0]]);
 
                     int betterHand = gameRules.getBetterHand(player.getHand(), computer.getHand());
                     if (betterHand == 1) {
                         System.out.println("\nYou have the better hand!\n");
                         declareWinner(player, computer);
-                    } else {
+                    } else if (betterHand == 2) {
                         System.out.println("\n" + computer.getName() + " has the better hand!\n");
                         declareWinner(computer, player);
+                    } else {
+                        System.out.println("\nIt's a tie! Continuing without emptying the pot...");
+                        continue;
                     }
                 } else {
                     declareWinner((player.hasFolded()) ? computer : player, (player.hasFolded()) ? player : computer);
@@ -85,8 +96,10 @@ public class UserInterface {
 
             if (player.getBalance() >= gameRules.getAnte())
                 isPlaying = UserInputManager.isContinuing(scanner, player.getBalance());
-            else
+            else {
                 System.out.println("Sorry, but you don't have enough money to play again!");
+                break;
+            }
         }
 
         System.out.println("You left the casino with $" + player.getBalance() + " in your pocket...\n\nWe hope to see you again soon!");
@@ -133,18 +146,20 @@ public class UserInterface {
         }
     }
 
-    private static void manageBets() {
-        double currentBet = 0;
-        double playerPayed = 0, computerPayed = 0;
+    // Returns the [currentBet, playerPaid, computerPaid] at the end
+    private static double[] manageBets(double startingBet, double computerOriginalBalance, double playerAlreadyPaid, double computerAlreadyPaid) {
+        double currentBet = startingBet;
+        double playerPaid = playerAlreadyPaid, computerPaid = computerAlreadyPaid;
 
         boolean playerMatch = false, computerMatch = false;
+
         while (true) {
             if (!player.isAllIn() && !computer.hasFolded() && !player.hasFolded()) {
                 System.out.println("Your hand is: ");
                 showHand(player);
 
                 while (true) {
-                    System.out.println("The current wager is $" + currentBet + ".\nThere is $" + pot.getTotal() + " in the pot.\nWould you like to match, fold, or raise?");
+                    System.out.println("The current wager is $" + currentBet + ".\nThere is $" + round(pot.getTotal(), 2) + " in the pot.\nWould you like to match, fold, or raise?");
                     String choice = scanner.nextLine().toUpperCase();
 
                     boolean retry = false;
@@ -158,11 +173,11 @@ public class UserInterface {
                             break;
                         } else if (choice.startsWith("R")) {
                             while (true) {
-                                if (player.getBalance() - (currentBet - playerPayed) >= 1) {
-                                    player.removeFromBalance(currentBet - playerPayed);
-                                    pot.update(currentBet - playerPayed);
+                                if (player.getBalance() - (currentBet - playerPaid) >= 1) {
+                                    player.removeFromBalance(currentBet - playerPaid);
+                                    pot.update(currentBet - playerPaid);
                                     System.out.println("Matching the current wager of $" + currentBet + " before raising... You have $" + player.getBalance() + " left");
-                                    playerPayed = currentBet;
+                                    playerPaid = currentBet;
 
                                     System.out.println("How much would you like to raise (minimum $1.00)");
                                     try {
@@ -175,7 +190,7 @@ public class UserInterface {
                                             System.out.println("You only have $" + player.getBalance() + " to wager!");
                                         } else {
                                             currentBet += raise;
-                                            playerPayed = currentBet;
+                                            playerPaid = currentBet;
                                             player.removeFromBalance(raise);
                                             pot.update(raise);
                                             break;
@@ -185,7 +200,7 @@ public class UserInterface {
                                         System.out.println("Please enter a number!");
                                     }
                                 } else {
-                                    System.out.println("Sorry, but you don't have enough money to raise! When you'd match, you'd have $" + (currentBet - playerPayed) + " left.");
+                                    System.out.println("Sorry, but you don't have enough money to raise! When you'd match, you'd have $" + (currentBet - playerPaid) + " left.");
                                     retry = true;
                                     break;
                                 }
@@ -199,8 +214,9 @@ public class UserInterface {
                             System.out.println("The wager has been raised to $" + currentBet + "\nYou have $" + player.getBalance() + " left");
                             break;
                         } else {
-                            player.removeFromBalance(currentBet - playerPayed);
-                            pot.update(currentBet - playerPayed);
+                            player.removeFromBalance(currentBet - playerPaid);
+                            pot.update(currentBet - playerPaid);
+                            playerPaid = currentBet;
                             System.out.println("You matched the current wager of $" + currentBet + "\nYou have $" + player.getBalance() + " left");
                             playerMatch = true;
                             break;
@@ -217,35 +233,44 @@ public class UserInterface {
             }
 
             if (!computer.isAllIn() && !player.hasFolded() && !computer.hasFolded()) {
-                double computerChoice = computer.decideWager(currentBet - (pot.getTotal() - playerPayed - gameRules.getAnte() * 2 - computerPayed));
+                double computerChoice = computer.decideWager(currentBet, computerOriginalBalance);
 
                 if (computerChoice == -1) {
                     computer.setFolded(true);
                     System.out.println("The computer folded...");
                     break;
-                } else if (computerChoice == 0) {
-                    computerMatch = true;
-                    computer.removeFromBalance(currentBet - (pot.getTotal() - playerPayed - gameRules.getAnte() * 2 - computerPayed));
-                    computerPayed = currentBet;
-                    System.out.println("The computer matched the $" + currentBet + " wager... It has $" + computer.getBalance() + " left.");
-                } else {
-                    computer.removeFromBalance(currentBet - (pot.getTotal() - playerPayed - gameRules.getAnte() * 2 - computerPayed));
-                    computer.removeFromBalance(computerChoice);
-
-                    currentBet += computerChoice;
-
-                    pot.update(computerChoice + currentBet - (pot.getTotal() - playerPayed - gameRules.getAnte() * 2 - computerPayed));
-
-                    computerPayed = currentBet;
-
-                    System.out.println("The computer raised $" + computerChoice + "... It has $" + computer.getBalance() + " left.");
-                }
-
-                if (computer.getBalance() == 0) {
+                } else if (computerChoice == -2) {
                     System.out.println("\nThe computer has gone all-in!\n");
                     computer.setAllIn(true);
-                }
 
+                    computer.removeFromBalance(currentBet - (pot.getTotal() - playerPaid - gameRules.getAnte() * 2 - computerPaid)); // How much the computer needs to pay to have reached currentBet
+                    pot.update(currentBet - (pot.getTotal() - playerPaid - gameRules.getAnte() * 2 - computerPaid));
+
+                    double raise = computer.getBalance();
+                    computer.removeFromBalance(computer.getBalance());
+
+                    currentBet += raise;
+                    computerPaid = currentBet;
+                    pot.update(raise);
+                    continue; // Go back to the top to make them match
+                } else if (computerChoice == 0) {
+                    computerMatch = true;
+                    computer.removeFromBalance(currentBet - (pot.getTotal() - playerPaid - gameRules.getAnte() * 2));
+                    computerPaid = currentBet;
+                    System.out.println("The computer matched the $" + currentBet + " wager... It has $" + computer.getBalance() + " left.");
+                } else {
+                    pot.update(currentBet - (pot.getTotal() - playerPaid - gameRules.getAnte() * 2 - computerPaid));
+                    computer.removeFromBalance(currentBet - (pot.getTotal() - playerPaid - gameRules.getAnte() * 2 - computerPaid));
+                    computer.removeFromBalance(computerChoice - currentBet);
+                    pot.update(computerChoice - currentBet);
+
+                    System.out.println("The computer raised $" + (computerChoice - currentBet) + "... It has $" + computer.getBalance() + " left.");
+
+                    currentBet = computerChoice;
+                    computerPaid = currentBet;
+                    computerMatch = false;
+
+                }
                 System.out.println();
             }
 
@@ -255,12 +280,14 @@ public class UserInterface {
             }
         }
 
+        double[] ret = {currentBet, playerPaid, computerPaid};
+        return ret;
     }
 
     private static void discardCards() {
         int[] cardsToDiscard = UserInputManager.getDiscardedCards(scanner, player);
         for (int i = 0; i < cardsToDiscard.length; i++) {
-            deck.returnToDeck(player.discard(i));
+            deck.returnToDeck(player.discard(cardsToDiscard[i] - 1));
             player.setCard(deck.deal());
         }
     }
@@ -270,9 +297,17 @@ public class UserInterface {
     }
 
     private static void declareWinner(PokerPlayer winner, PokerPlayer loser) {
-        System.out.println(winner.getName() + " wins $" + pot.getTotal() + "!");
-        loser.removeFromBalance(pot.getTotal());
-        winner.addToBalance(pot.getTotal());// Call payout the second time to empty it out
+        System.out.println(winner.getName() + " wins $" + round(pot.getTotal(), 2) + "!");
+        loser.removeFromBalance(round(pot.getTotal(), 2));
+        winner.addToBalance(round(pot.payOut(), 2));// Call payout the second time to empty it out
         System.out.println("They have $" + winner.getBalance() + " left!");
+    }
+
+    private static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }

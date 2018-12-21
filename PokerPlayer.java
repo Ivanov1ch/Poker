@@ -1,3 +1,6 @@
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 /**
  * File:        PokerPlayer.java
  * Description: A class representing a Poker Player.
@@ -22,10 +25,12 @@ public class PokerPlayer extends CardPlayer {
 
     public void addToBalance(double amount) {
         balance += amount;
+        balance = round(balance, 2);
     }
 
     public void removeFromBalance(double amount) {
         balance -= amount;
+        balance = round(balance, 2);
     }
 
     public boolean hasFolded() {
@@ -42,5 +47,13 @@ public class PokerPlayer extends CardPlayer {
 
     public void setAllIn(boolean allIn) {
         this.allIn = allIn;
+    }
+
+    private double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }
