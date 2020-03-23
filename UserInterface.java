@@ -298,7 +298,6 @@ public class UserInterface {
 
     private static void declareWinner(PokerPlayer winner, PokerPlayer loser) {
         System.out.println(winner.getName() + " wins $" + round(pot.getTotal(), 2) + "!");
-        loser.removeFromBalance(round(pot.getTotal(), 2));
         winner.addToBalance(round(pot.payOut(), 2));// Call payout the second time to empty it out
         System.out.println("They have $" + winner.getBalance() + " left!");
     }
