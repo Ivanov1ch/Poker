@@ -256,6 +256,7 @@ public class UserInterface {
                 } else if (computerChoice == 0) {
                     computerMatch = true;
                     computer.removeFromBalance(currentBet - (pot.getTotal() - playerPaid - gameRules.getAnte() * 2));
+                    pot.update(currentBet - (pot.getTotal() - playerPaid - gameRules.getAnte() * 2));
                     computerPaid = currentBet;
                     System.out.println("The computer matched the $" + currentBet + " wager... It has $" + computer.getBalance() + " left.");
                 } else {
